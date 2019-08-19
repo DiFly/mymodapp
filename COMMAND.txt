@@ -1,0 +1,22 @@
+javac -d appmodules\appfuncs appsrc\appfuncs\module-info.java appsrc\appfuncs\appfuncs\simplefuncs\SimpleMathFuncs.java
+
+javac --module-path appmodules -d appmodules\appstart appsrc\appstart\module-info.java appsrc\appstart\appstart\mymodappdemo\MyModAppDemo.java
+
+java --module-path appmodules -m appstart/appstart.mymodappdemo.MyModAppDemo
+
+#DEPENDENCY
+jdeps --module-path appmodules -s --module appstart
+
+#CREATE CUSTOM JRE
+jlink --module-path "%JAVA_HOME\jmods";appmodules --add-modules appstart --output customjre
+
+#LAUNCH APP v1
+customjre\bin\java --module-path appmodules -m appstart/appstart.mymodappdemo.MyModAppDemo
+#LAUNCH APP v2
+customjre\bin\java --module appstart/appstart.mymodappdemo.MyModAppDemo
+
+
+#CREATE CUSTOM JRE WITH LAUNCHER FILES \\ search in bin folder file with "bat" extension
+jlink --launcher customlauncher=appstart/appstart.mymodappdemo.MyModAppDemo --module-path "%JAVA_HOME%\jmods";appmodules --add-modules appstart --output customjrewithluncher
+
+
